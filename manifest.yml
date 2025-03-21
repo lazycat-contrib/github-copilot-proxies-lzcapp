@@ -1,0 +1,48 @@
+lzc-sdk-version: "0.1"
+name: Copilot后端代理
+package: cloud.lazycat.app.copilot
+version: 0.1.7
+description: GitHub Copilot插件服务端
+homepage: https://gitee.com/ripperTs/github-copilot-proxies
+author: ripperTs
+application:
+  subdomain: copilot
+  secondary_domains:
+    - api.copilot
+    - copilot-proxy.copilot
+    - copilot-telemetry-service.copilot
+
+  background_task: true
+  multi_instance: false
+  gpu_accel: false
+  kvm_accel: false
+  usb_accel: false
+  public_path:
+    - /
+  routes:
+    - /=http://copilot-app:1188/
+services:
+
+  copilot-app:
+    image: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:latest
+    environment:
+      - ENV=lazycat-docker
+      - HOST=0.0.0.0
+      - PORT=1188
+      - HTTPS_PORT=443
+      - DEFAULT_BASE_URL=https://${LAZYCAT_APP_DOMAIN}
+      - API_BASE_URL=https://api.${LAZYCAT_APP_DOMAIN}
+      - PROXY_BASE_URL=https://copilot-proxy.${LAZYCAT_APP_DOMAIN}
+      - TELEMETRY_BASE_URL=https://copilot-telemetry-service.${LAZYCAT_APP_DOMAIN}
+    binds:
+      - /lzcapp/var/logs:/root/logs
+      - /lzcapp/var/data:/root/data
+    setup_script: |
+      if [ ! -f /root/data/env.yaml ]; then
+        cp -f /lzcapp/pkg/content/env.yaml /root/data/env.yaml
+      fi
+
+      if [ -f /root/data/env.yaml ]; then
+        ln -sf /root/data/env.yaml /root/.env
+      fi
+
