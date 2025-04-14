@@ -1,7 +1,7 @@
 lzc-sdk-version: "0.1"
 name: Copilot后端代理
 package: cloud.lazycat.app.copilot
-version: 0.1.7
+version: 0.1.9
 description: GitHub Copilot插件服务端
 homepage: https://gitee.com/ripperTs/github-copilot-proxies
 author: ripperTs
