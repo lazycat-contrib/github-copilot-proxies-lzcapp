@@ -1,7 +1,7 @@
 lzc-sdk-version: "0.1"
 name: Copilot后端代理
 package: cloud.lazycat.app.copilot
-version: 0.1.11
+version: 0.1.12
 description: GitHub Copilot插件服务端
 homepage: https://gitee.com/ripperTs/github-copilot-proxies
 author: ripperTs
@@ -24,7 +24,8 @@ application:
 services:
 
   copilot-app:
-    image: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:latest
+      # registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:latest
+    image: registry.lazycat.cloud/czyt/ripper/copilot-proxies:1cfca52702bdbd68
     environment:
       - ENV=lazycat-docker
       - HOST=0.0.0.0
