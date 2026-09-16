@@ -1,31 +1,21 @@
-lzc-sdk-version: "0.1"
-name: Copilot后端代理
-package: cloud.lazycat.app.copilot
-version: 0.1.12
-description: GitHub Copilot插件服务端
-homepage: https://gitee.com/ripperTs/github-copilot-proxies
-author: ripperTs
 application:
   subdomain: copilot
   secondary_domains:
     - api.copilot
     - copilot-proxy.copilot
     - copilot-telemetry-service.copilot
-
   background_task: true
   multi_instance: false
-  gpu_accel: false
-  kvm_accel: false
-  usb_accel: false
   public_path:
     - /
-  routes:
-    - /=http://copilot-app:1188/
-services:
+  upstreams:
+    - location: /
+      backend: http://copilot-app:1188/
 
+services:
   copilot-app:
-      # registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:latest
-    image: registry.lazycat.cloud/czyt/ripper/copilot-proxies:1cfca52702bdbd68
+    # upstream: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:v0.1.13
+    image: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:v0.1.13
     environment:
       - ENV=lazycat-docker
       - HOST=0.0.0.0
@@ -46,4 +36,3 @@ services:
       if [ -f /root/data/env.yaml ]; then
         ln -sf /root/data/env.yaml /root/.env
       fi
-
