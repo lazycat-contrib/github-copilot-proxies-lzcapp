@@ -11,11 +11,10 @@ application:
   upstreams:
     - location: /
       backend: http://copilot-app:1188/
-
 services:
   copilot-app:
     # upstream: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:v0.1.13
-    image: registry.cn-hangzhou.aliyuncs.com/ripper/copilot-proxies:v0.1.13
+    image: registry.lazycat.cloud/czyt/ripper/copilot-proxies:8c3549bd3ce6efef
     environment:
       - ENV=lazycat-docker
       - HOST=0.0.0.0
